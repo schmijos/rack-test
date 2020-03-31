@@ -53,6 +53,11 @@ describe Rack::Test::Utils do
       input = { collection: [] }
       expect(build_nested_query(input)).to eq('collection[]=')
     end
+
+    it 'supports hash keys with not-present keys' do
+      input = { c: [{ a: 1, b: 2 }, { a: 3 }, { b: 4 }] }
+      expect(build_nested_query(input)).to eq('c[][a]=1&c[][b]=2&c[][a]=3&c[][b]=4')
+    end
   end
 
   describe 'Rack::Test::Utils.build_multipart' do
